@@ -1,129 +1,178 @@
-<!-- MÀN HÌNH ĐĂNG NHẬP / ĐĂNG KÝ -->
-<div id="auth-modal" class="modal">
-    <div class="modal-content auth-box">
-        <div class="auth-badge">🌾 ĐẶC SẢN NINH THUẬN</div>
-        <h2>🔐 Đăng Nhập Nông Dân</h2>
-        <p class="subtitle">Đăng nhập (hoặc tự tạo tài khoản mới) để lưu thành tích lên bảng xếp hạng trực tuyến</p>
-        <form id="auth-form" onsubmit="return false;">
-            <div class="input-group">
-                <label for="auth-user">Tên tài khoản</label>
-                <input type="text" id="auth-user" placeholder="Ví dụ: nongdan_ninhthuan" required autocomplete="username" maxlength="20">
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thu Hoạch Hành Tím Ninh Thuận - Online</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+    <!-- Firebase SDK (Compat) cho Bảng Xếp Hạng & Tài Khoản Online -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-database-compat.js"></script>
+</head>
+<body>
+    <!-- Nhạc nền tổng thể cho màn hình Đăng nhập và Giao diện chính -->
+    <audio id="bg-music" src="/static/sounds/music_background_v2.mp3" loop preload="auto"></audio>
+
+    <!-- MÀN HÌNH ĐĂNG NHẬP / ĐĂNG KÝ -->
+    <div id="auth-modal" class="modal">
+        <div class="modal-content auth-box">
+            <div class="auth-badge">🌾 ĐẶC SẢN NINH THUẬN</div>
+            <h2>🔐 Tài Khoản Nông Dân</h2>
+            <p class="subtitle">Đăng nhập hoặc tạo tài khoản mới để lưu thành tích lên bảng xếp hạng trực tuyến</p>
+            <form id="auth-form" onsubmit="return false;">
+                <div class="input-group">
+                    <label for="auth-user">Tên tài khoản</label>
+                    <input type="text" id="auth-user" placeholder="Ví dụ: nongdan_ninhthuan" required autocomplete="username" maxlength="20">
+                </div>
+                <div class="input-group">
+                    <label for="auth-pass">Mật khẩu (tối thiểu 6 ký tự)</label>
+                    <input type="password" id="auth-pass" placeholder="Nhập mật khẩu từ 6 ký tự trở lên" required autocomplete="current-password" minlength="6">
+                </div>
+                <div style="display: flex; gap: 10px; margin-top: 14px;">
+                    <button type="button" id="login-btn" class="btn primary-btn" style="flex: 1; margin: 0;">Đăng Nhập 🧅</button>
+                    <button type="button" id="register-btn" class="btn secondary-btn" style="flex: 1; margin: 0; background-color: #d35400;">Đăng Ký Mới ✨</button>
+                </div>
+            </form>
+            <p id="auth-error" class="error-text"></p>
+        </div>
+    </div>
+
+    <!-- GIAO DIỆN CHÍNH CỦA GAME -->
+    <div id="game-container" class="game-container hidden">
+        <header>
+            <div class="top-bar">
+                <div class="user-welcome">🧑‍🌾 Nông dân: <strong id="current-username">Khách</strong></div>
+                <div class="top-actions">
+                    <button id="sound-toggle-btn" class="icon-btn" title="Bật/Tắt âm thanh">🔊 Âm thanh: Bật</button>
+                    <button id="logout-btn" class="icon-btn danger-outline">Đăng xuất</button>
+                </div>
             </div>
-            <div class="input-group">
-                <label for="auth-pass">Mật khẩu</label>
-                <input type="password" id="auth-pass" placeholder="Nhập mật khẩu (tối thiểu 4 ký tự)" required autocomplete="current-password">
+            <h1>🧅 Thu Hoạch Hành Tím Ninh Thuận 🧅</h1>
+            <p class="subtitle">Nhổ hành theo từng hàng (5×10) — Gõ xong từ đầu tiên & bấm <b>Space / Enter</b> để bắt đầu tính giờ!</p>
+        </header>
+
+        <!-- Thanh trạng thái -->
+        <div class="stats-bar">
+            <div class="stat-box">
+                <span class="stat-label">Luống / Hàng</span>
+                <span id="current-row-display" class="stat-value">L1 - H1/5</span>
             </div>
-            <button type="submit" id="login-btn" class="btn primary-btn full-width">Vào Ruộng Hành 🧅</button>
-        </form>
-        <p id="auth-error" class="error-text"></p>
-    </div>
-</div>
-
-<!-- GIAO DIỆN CHÍNH CỦA GAME -->
-<div id="game-container" class="game-container hidden">
-    <header>
-        <div class="top-bar">
-            <div class="user-welcome">🧑‍🌾 Nông dân: <strong id="current-username">Khách</strong></div>
-            <div class="top-actions">
-                <button id="sound-toggle-btn" class="icon-btn" title="Bật/Tắt âm thanh">🔊 Âm thanh: Bật</button>
-                <button id="logout-btn" class="icon-btn danger-outline">Đăng xuất</button>
+            <div class="stat-box highlight-timer">
+                <span class="stat-label">Thời gian</span>
+                <span id="timer" class="stat-value">02:00</span>
+            </div>
+            <div class="stat-box">
+                <span class="stat-label">Đã nhổ</span>
+                <span id="score" class="stat-value">0</span>
+            </div>
+            <div class="stat-box">
+                <span class="stat-label">Bị đứt</span>
+                <span id="broken-count" class="stat-value text-danger">0</span>
+            </div>
+            <div class="stat-box">
+                <span class="stat-label">Tốc độ (WPM)</span>
+                <span id="wpm" class="stat-value">0</span>
+            </div>
+            <div class="stat-box">
+                <span class="stat-label">Chính xác</span>
+                <span id="accuracy" class="stat-value">100%</span>
             </div>
         </div>
-        <h1>🧅 Thu Hoạch Hành Tím Ninh Thuận 🧅</h1>
-        <p class="subtitle">Nhổ hành theo từng hàng (5×10) — Gõ xong từ đầu tiên & bấm <b>Space / Enter</b> để bắt đầu tính giờ!</p>
-    </header>
 
-    <!-- Thanh trạng thái -->
-    <div class="stats-bar">
-        <div class="stat-box">
-            <span class="stat-label">Luống / Hàng</span>
-            <span id="current-row-display" class="stat-value">L1 - H1/5</span>
+        <!-- Khu vực từ cần gõ -->
+        <div class="typing-section">
+            <div class="word-preview-box">
+                <span class="preview-label">Từ cần nhổ:</span>
+                <div id="target-word-display" class="target-word">Bấm "Bắt đầu thu hoạch" để chuẩn bị...</div>
+                <div id="next-word-display" class="next-word">Tiếp theo: —</div>
+            </div>
+            <input type="text" id="word-input" placeholder="Gõ từ hiện tại rồi bấm Space hoặc Enter..." autocomplete="off" spellcheck="false" disabled>
+            <div id="timer-status-hint" class="status-hint">⏳ Sẵn sàng: Đồng hồ chỉ chạy sau khi bạn hoàn thành từ đầu tiên!</div>
         </div>
-        <div class="stat-box highlight-timer">
-            <span class="stat-label">Thời gian</span>
-            <span id="timer" class="stat-value">02:00</span>
+
+        <!-- Ruộng hành hiển thị theo hàng (5 hàng x 10 cột) -->
+        <div class="field-wrapper">
+            <div class="field-banner">☀️ RUỘNG CÁT HÀNH TÍM NINH THUẬN (5 HÀNG × 10 CÂY) ☀️</div>
+            <div id="farmer" class="farmer" title="Nông dân Ninh Thuận">🧑‍🌾</div>
+            <div id="onion-grid" class="onion-grid">
+                <!-- Các hàng hành sẽ được tạo động bởi js/game.js -->
+            </div>
         </div>
-        <div class="stat-box">
-            <span class="stat-label">Đã nhổ</span>
-            <span id="score" class="stat-value">0</span>
+
+        <!-- Điều khiển -->
+        <div class="controls">
+            <button id="start-btn" class="btn primary-btn">Bắt đầu thu hoạch</button>
+            <button id="reset-btn" class="btn secondary-btn" disabled>Làm mới luống</button>
         </div>
-        <div class="stat-box">
-            <span class="stat-label">Bị đứt</span>
-            <span id="broken-count" class="stat-value text-danger">0</span>
+
+    <!-- KHUNG CHỨA 2 BẢNG XẾP HẠNG SONG SONG -->
+    <div class="leaderboards-grid">
+        
+        <!-- Bảng 1: Bảng Xếp Hạng Trực Tuyến -->
+        <div class="leaderboard-section" style="margin-top: 0;">
+            <div class="leaderboard-header">
+                <h2>🌐 Bảng Xếp Hạng Trực Tuyến (Top 10)</h2>
+                <span id="db-status-badge" class="badge-online">Đang kết nối...</span>
+            </div>
+            <div class="table-responsive">
+                <table class="leaderboard-table">
+                    <thead>
+                        <tr>
+                            <th>Hạng</th>
+                            <th>Nông dân</th>
+                            <th>Số củ</th>
+                            <th>Tốc độ</th>
+                            <th>Chuẩn</th>
+                        </tr>
+                    </thead>
+                    <tbody id="leaderboard-body">
+                        <tr><td colspan="5" class="text-center">Đang tải dữ liệu...</td></tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
-        <div class="stat-box">
-            <span class="stat-label">Tốc độ (WPM)</span>
-            <span id="wpm" class="stat-value">0</span>
+
+        <!-- Bảng 2: Bảng Vàng Kho Báu Quý Hiếm -->
+        <div class="leaderboard-section" style="margin-top: 0;">
+            <div class="leaderboard-header">
+                <h2>💎 Bảng Vàng Kho Báu</h2>
+                <span class="badge-online">Tích lũy mùa vụ</span>
+            </div>
+            <div class="table-responsive">
+                <table class="leaderboard-table">
+                    <thead>
+                        <tr>
+                            <th>Hạng</th>
+                            <th>Nông dân</th>
+                            <th>💎 KC</th>
+                            <th>🥇 Vàng</th>
+                            <th>🥈 Bạc</th>
+                        </tr>
+                    </thead>
+                    <tbody id="treasure-leaderboard-body">
+                        <tr><td colspan="5" class="text-center">Đang tải kho báu...</td></tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
-        <div class="stat-box">
-            <span class="stat-label">Chính xác</span>
-            <span id="accuracy" class="stat-value">100%</span>
+
+    </div>
+
+    <!-- Modal Kết Quả Sau Khi Hết Giờ -->
+    <div id="result-modal" class="modal hidden">
+        <div class="modal-content">
+            <h2>🎉 Tổng Kết Mùa Vụ!</h2>
+            <div id="final-stats" class="final-stats-box"></div>
+            <p class="sync-note">✅ Thành tích đã được tự động cập nhật lên Bảng Xếp Hạng Online!</p>
+            <button id="close-modal-btn" class="btn primary-btn full-width">Tiếp tục ra đồng</button>
         </div>
     </div>
 
-    <!-- Khu vực từ cần gõ -->
-    <div class="typing-section">
-        <div class="word-preview-box">
-            <span class="preview-label">Từ cần nhổ:</span>
-            <div id="target-word-display" class="target-word">Bấm "Bắt đầu thu hoạch" để chuẩn bị...</div>
-            <div id="next-word-display" class="next-word">Tiếp theo: —</div>
-        </div>
-        <input type="text" id="word-input" placeholder="Gõ từ hiện tại rồi bấm Space hoặc Enter..." autocomplete="off" spellcheck="false" disabled>
-        <div id="timer-status-hint" class="status-hint">⏳ Sẵn sàng: Đồng hồ chỉ chạy sau khi bạn hoàn thành từ đầu tiên!</div>
-    </div>
-
-    <!-- Ruộng hành hiển thị theo hàng (5 hàng x 10 cột) -->
-    <div class="field-wrapper">
-        <div class="field-banner">☀️ RUỘNG CÁT HÀNH TÍM NINH THUẬN (5 HÀNG × 10 CÂY) ☀️</div>
-        <div id="farmer" class="farmer" title="Nông dân Ninh Thuận">🧑‍🌾</div>
-        <div id="onion-grid" class="onion-grid">
-            <!-- Các hàng hành sẽ được tạo động bởi js/game.js -->
-        </div>
-    </div>
-
-    <!-- Điều khiển -->
-    <div class="controls">
-        <button id="start-btn" class="btn primary-btn">Bắt đầu thu hoạch</button>
-        <button id="reset-btn" class="btn secondary-btn" disabled>Làm mới luống</button>
-    </div>
-
-    <!-- Bảng xếp hạng Online -->
-    <div class="leaderboard-section">
-        <div class="leaderboard-header">
-            <h2>🌐 Bảng Xếp Hạng Trực Tuyến (Top 10 Nông Dân)</h2>
-            <span id="db-status-badge" class="badge-online">Đang kết nối...</span>
-        </div>
-        <div class="table-responsive">
-            <table class="leaderboard-table">
-                <thead>
-                    <tr>
-                        <th>Hạng</th>
-                        <th>Nông dân</th>
-                        <th>Số củ nhổ</th>
-                        <th>Tốc độ</th>
-                        <th>Chính xác</th>
-                    </tr>
-                </thead>
-                <tbody id="leaderboard-body">
-                    <tr><td colspan="5" class="text-center">Đang tải dữ liệu bảng xếp hạng...</td></tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
-</div>
-
-<!-- Modal Kết Quả Sau Khi Hết Giờ -->
-<div id="result-modal" class="modal hidden">
-    <div class="modal-content">
-        <h2>🎉 Tổng Kết Mùa Vụ!</h2>
-        <div id="final-stats" class="final-stats-box"></div>
-        <p class="sync-note">✅ Thành tích đã được tự động cập nhật lên Bảng Xếp Hạng Online!</p>
-        <button id="close-modal-btn" class="btn primary-btn full-width">Tiếp tục ra đồng</button>
-    </div>
-</div>
-
-<!-- Tải các module JS theo đúng thứ tự phụ thuộc -->
-<script src="js/database.js"></script>
-<script src="js/auth.js"></script>
-<script src="js/leaderboard.js"></script>
-<script src="js/game.js"></script>
+    <!-- Tải các module JS theo đúng thứ tự phụ thuộc -->
+    <script src="/static/js/database.js"></script>
+    <script src="/static/js/auth.js"></script>
+    <script src="/static/js/leaderboard.js"></script>
+    <script src="/static/js/game.js"></script>
+    <script src="/static/js/events.js"></script>
+</body>
+</html>
