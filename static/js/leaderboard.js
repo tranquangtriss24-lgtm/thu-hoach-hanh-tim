@@ -52,9 +52,14 @@ window.LeaderboardManager = (function () {
                 tr.innerHTML = `
                     <td class="text-center"><strong>${medal}</strong></td>
                     <td>${escapeHTML(item.name)}</td>
-                    <td class="text-center font-bold text-cyan-600">💎 ${item.diamond || 0}</td>
-                    <td class="text-center font-bold text-amber-600">🥇 ${item.gold || 0}</td>
-                    <td class="text-center font-bold text-slate-500">🥈 ${item.silver || 0}</td>
+                    <td class="text-center font-bold text-cyan-600">
+                    <img src="/static/images/onion_dimond.png" alt="KC" style="width: 20px; height: 20px; vertical-align: middle;"> ${item.diamond || 0}</td>
+
+                    <td class="text-center font-bold text-amber-600">
+                    <img src="static/images/onion_gold.png" alt="KC" style="width: 20px; height: 20px; vertical-align: middle;"> ${item.gold || 0}</td>
+
+                    <td class="text-center font-bold text-slate-500">
+                    <img src="static/images/onion_silver.png" alt="KC" style="width: 20px; height: 20px; vertical-align: middle;"> ${item.silver || 0}</td>
                 `;
             }
             tbodyElement.appendChild(tr);
