@@ -4,10 +4,10 @@
 :root {
     --bg-gradient: linear-gradient(135deg, #fff6e5 0%, #fde3b4 100%);
     --card-bg: #ffffff;
-    --sand-bg: #f3d286;
-    --sand-border: #c8963e;
+    --sand-bg: #fac038;
+    --sand-border: #f4b955;
     --row-bg: rgba(255, 248, 231, 0.55);
-    --row-active-bg: rgba(255, 255, 255, 0.85);
+    --row-active-bg: rgba(250, 250, 250, 0.85);
     --primary-color: #d35400;
     --primary-hover: #b84700;
     --green-color: #27ae60;
@@ -361,6 +361,14 @@ header h1 {
     width: 100%;
     margin: 10px 0 0 0;
 }
+.exit-btn {
+    background-color: #64748b;
+    color: #ffffff;
+}
+
+.exit-btn:hover:not(:disabled) {
+    background-color: #475569;
+}
 
 /* --- BẢNG XẾP HẠNG ONLINE --- */
 .leaderboard-section {
@@ -543,4 +551,25 @@ header h1 {
     .leaderboards-grid {
         grid-template-columns: 1fr;
     }
+}
+.onion-img {
+    width: 48px; /* Kích thước ô trên ruộng */
+    height: auto;
+    object-fit: contain;
+    mix-blend-mode: multiply; /* Hòa trộn nền */
+    filter: contrast(1.2) brightness(1.05); /* Tăng tương phản để triệt tiêu các viền mờ thừa */
+    background: transparent !important;
+}
+.land-img {
+    width: 60px;             /* Bạn có thể tự điều chỉnh to/nhỏ tùy ý (ví dụ: 46px hoặc 50px) */
+    height: auto;
+    object-fit: contain;
+    transform: translateY(12px);
+}
+/* Style chung cho các củ hành độ hiếm (Kim cương, Vàng, Bạc) */
+.rare-onion-img {
+    width: 60px;             /* Bạn có thể tùy chỉnh to/nhỏ tùy ý */
+    height: auto;
+    object-fit: contain;
+    transform: translateY(10px); /* Căn chỉnh độ cao cho khớp với ô ruộng */
 }
