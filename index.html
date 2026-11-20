@@ -10,6 +10,7 @@
     <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-database-compat.js"></script>
 </head>
 <body>
+    
     <!-- Nhạc nền tổng thể cho màn hình Đăng nhập và Giao diện chính -->
     <audio id="bg-music" src="/static/sounds/music_background_v2.mp3" loop preload="auto"></audio>
 
@@ -47,8 +48,12 @@
                     <button id="logout-btn" class="icon-btn danger-outline">Đăng xuất</button>
                 </div>
             </div>
-            <h1>🧅 Thu Hoạch Hành Tím Ninh Thuận 🧅</h1>
-            <p class="subtitle">Nhổ hành theo từng hàng (5×10) — Gõ xong từ đầu tiên & bấm <b>Space / Enter</b> để bắt đầu tính giờ!</p>
+            <h1>
+                <img src="static/images/onion_heading.png" alt="Hành" style="width: 36px; height: 36px; vertical-align: middle; object-fit: contain;"> 
+                Thu Hoạch Hành Tím Ninh Thuận 
+                <img src="static/images/onion_heading.png" alt="Hành" style="width: 36px; height: 36px; vertical-align: middle; object-fit: contain;">
+            </h1>
+            <p class="subtitle"> Hãy trở thành người nông dân chăm chỉ nhé </p>
         </header>
 
         <!-- Thanh trạng thái -->
@@ -92,7 +97,7 @@
 
         <!-- Ruộng hành hiển thị theo hàng (5 hàng x 10 cột) -->
         <div class="field-wrapper">
-            <div class="field-banner">☀️ RUỘNG CÁT HÀNH TÍM NINH THUẬN (5 HÀNG × 10 CÂY) ☀️</div>
+            <div class="field-banner">☀️ RẪY HÀNH TÍM NINH THUẬN  ☀️</div>
             <div id="farmer" class="farmer" title="Nông dân Ninh Thuận">🧑‍🌾</div>
             <div id="onion-grid" class="onion-grid">
                 <!-- Các hàng hành sẽ được tạo động bởi js/game.js -->
@@ -103,7 +108,9 @@
         <div class="controls">
             <button id="start-btn" class="btn primary-btn">Bắt đầu thu hoạch</button>
             <button id="reset-btn" class="btn secondary-btn" disabled>Làm mới luống</button>
+            <button id="exit-btn" class="btn exit-btn" disabled>Thoát game</button>
         </div>
+        
 
     <!-- KHUNG CHỨA 2 BẢNG XẾP HẠNG SONG SONG -->
     <div class="leaderboards-grid">
@@ -111,7 +118,7 @@
         <!-- Bảng 1: Bảng Xếp Hạng Trực Tuyến -->
         <div class="leaderboard-section" style="margin-top: 0;">
             <div class="leaderboard-header">
-                <h2>🌐 Bảng Xếp Hạng Trực Tuyến (Top 10)</h2>
+                <h2>🌐 Những Nông Dân Ưu Tú</h2>
                 <span id="db-status-badge" class="badge-online">Đang kết nối...</span>
             </div>
             <div class="table-responsive">
@@ -135,7 +142,7 @@
         <!-- Bảng 2: Bảng Vàng Kho Báu Quý Hiếm -->
         <div class="leaderboard-section" style="margin-top: 0;">
             <div class="leaderboard-header">
-                <h2>💎 Bảng Vàng Kho Báu</h2>
+                <h2><img src="/static/images/onion_dimond.png" alt="KC" style="width: 24px; height: 24px; vertical-align: middle;"> Bảng Vàng Kho Báu</h2>
                 <span class="badge-online">Tích lũy mùa vụ</span>
             </div>
             <div class="table-responsive">
@@ -144,9 +151,9 @@
                         <tr>
                             <th>Hạng</th>
                             <th>Nông dân</th>
-                            <th>💎 KC</th>
-                            <th>🥇 Vàng</th>
-                            <th>🥈 Bạc</th>
+                            <th><img src="/static/images/onion_dimond.png" alt="KC" style="width: 20px; height: 20px; vertical-align: middle;"> KC</th>
+                            <th><img src="/static/images/onion_gold.png" alt="Vàng" style="width: 20px; height: 20px; vertical-align: middle;"> Vàng</th>
+                            <th><img src="/static/images/onion_silver.png" alt="Bạc" style="width: 20px; height: 20px; vertical-align: middle;"> Bạc</th>
                         </tr>
                     </thead>
                     <tbody id="treasure-leaderboard-body">
