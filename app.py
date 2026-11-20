@@ -92,7 +92,7 @@ def auth_user():
         return jsonify({"ok": True, "username": db_username, "isNew": False})
 
 
-# 3. API Lưu điểm số & Kho báu vào Database (Cộng dồn vật phẩm quí hiếm)
+# 3. API Lưu điểm số & Kho báu vào Database (Tính điểm kho báu ngầm định)
 @app.route("/api/score", methods=["POST"])
 def save_score():
     data = request.get_json(silent=True) or {}
@@ -112,7 +112,6 @@ def save_score():
     
     now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     
-    # Cập nhật thành tích (ghi đè nếu điểm cao hơn) và cộng dồn kho báu quí hiếm
     cursor.execute("""
         INSERT INTO leaderboard (username, harvested, wpm, accuracy, diamond, gold, silver, updated_at)
         VALUES (?, ?, ?, ?, ?, ?, ?, ?)
@@ -134,13 +133,14 @@ def save_score():
     return jsonify({"ok": True})
 
 
-# 4. API Lấy Top 10 Bảng Xếp Hạng & Kho Báu từ Database 
+# 4. API Lấy Top 10 Bảng Xếp Hạng & Sắp xếp Bảng Vàng theo công thức (KC*15 + Vàng*5 + Bạc*1)
 @app.route("/api/leaderboard", methods=["GET"])
 def get_leaderboard():
     conn = sqlite3.connect(DB_PATH)
     cursor = conn.cursor()
     cursor.execute("""
-        SELECT username, harvested, wpm, accuracy, diamond, gold, silver
+        SELECT username, harvested, wpm, accuracy, diamond, gold, silver,
+               (diamond * 15 + gold * 5 + silver * 1) as treasure_score
         FROM leaderboard
         ORDER BY harvested DESC, wpm DESC, accuracy DESC
         LIMIT 10
@@ -157,6 +157,7 @@ def get_leaderboard():
             "diamond": r[4],
             "gold": r[5],
             "silver": r[6]
+            # Lưu ý: Không đưa 'treasure_score' ra kết quả JSON để tuyệt đối không hiển thị điểm
         }
         for r in rows
     ]
