@@ -5,35 +5,33 @@
 window.GameEvents = (function () {
     let normalStreak = parseInt(sessionStorage.getItem("hanh_normal_streak")) || 0;
 
+// Ví dụ cấu hình trong file events.js của bạn:
     function rollOnionType() {
-        normalStreak++;
-
-        const diamondChance = 1; 
-        const goldChance = 4;    
-        const silverChance = 10;  
-
         const rand = Math.random() * 100;
-        let cumulative = 0;
-
-        if (rand < (cumulative += diamondChance)) {
-            normalStreak = 0;
-            saveStreak();
-            return { type: "diamond", name: "Hành Kim Cương", icon: "💎" };
+        if (rand < 1) {
+            return { 
+                type: "diamond", 
+                name: "Hành Kim Cương", 
+                icon: `<img src="/static/images/onion_dimond.png" alt="Kim Cương" class="rare-onion-img">` 
+            };
+        } else if (rand < 1 + 4) {
+            return { 
+                type: "gold", 
+                name: "Hành Vàng", 
+                icon: `<img src="/static/images/onion_gold.png" alt="Vàng" class="rare-onion-img">` 
+            };
+        } else if (rand < 1 + 4 + 10) {
+            return { 
+                type: "silver", 
+                name: "Hành Bạc", 
+                icon: `<img src="/static/images/onion_silver.png" alt="Bạc" class="rare-onion-img">` 
+            };
+        } else {
+            return { 
+                type: "normal", 
+                name: "Hành Tím",   
+            };
         }
-        if (rand < (cumulative += goldChance)) {
-            normalStreak = 0;
-            saveStreak();
-            return { type: "gold", name: "Hành Vàng", icon: "🥇" };
-        }
-        if (rand < (cumulative += silverChance)) {
-            normalStreak = 0;
-            saveStreak();
-            return { type: "silver", name: "Hành Bạc", icon: "🥈" };
-        }
-
-        saveStreak();
-        // Hành thường để icon rỗng ("") để tuyệt đối không hiện củ hành 🧅 lên chữ cần nhập
-        return { type: "normal", name: "Hành Tím", icon: "" };
     }
 
     function saveStreak() {
