@@ -28,7 +28,7 @@ window.OnlineDB = (function () {
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(record)
         });
-    }
+    } 
 
     async function subscribeLeaderboard(callback) {
         try {
