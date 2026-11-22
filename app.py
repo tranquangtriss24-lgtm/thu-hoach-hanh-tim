@@ -163,9 +163,7 @@ def get_leaderboard():
     ]
     return jsonify(result)
 
-
 if __name__ == "__main__":
     init_db()
-    # Nếu trước đó đã chạy file db cũ không có cột kho báu, bạn có thể xóa file nongdan_ninhthuan.db đi để code tự tạo mới sạch sẽ
-    print("🚀 Server đang chạy tại: http://127.0.0.1:5000")
-    app.run(host="0.0.0.0", port=5000, debug=True)
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host="0.0.0.0", port=port, debug=False)
