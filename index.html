@@ -48,10 +48,31 @@
                     <button id="logout-btn" class="icon-btn danger-outline">Đăng xuất</button>
                 </div>
             </div>
+
+            <!-- Nút 3 gạch nằm ngay dưới đường line, canh lề phải -->
+            <div class="menu-trigger-row">
+                <button id="about-menu-btn" class="hamburger-btn" type="button" aria-label="Giới thiệu game" title="Giới thiệu & Mô tả game">
+                    ☰
+                </button>
+            </div>
+
+            <!-- Hộp / Modal Giới thiệu & Mô tả game (tự điền nội dung của bạn) -->
+            <div id="about-box" class="about-box hidden">
+                <div class="about-box-header">
+                    <h3>Giới Thiệu & Mô Tả Game</h3>
+                    <button id="close-about-btn" class="about-close-btn" type="button" title="Đóng">✕</button>
+                </div>
+                <div id="about-content" class="about-content">
+                    <p><strong>Thu Hoạch Hành Tím Ninh Thuận</strong> là một dự án nhỏ của Trần Quang Tri, được lấy ý tưởng của một game test tốc độ đánh mấy kết hợp với một hành động thu hoạch hành tím của những người nông dân Ninh Thuận( Khành hòa mới). </p>
+                    <p>Dự án muốn lưu lại một phần kí ức của Trí, một kí ức gắn bó với những cây hành tím.  </p>
+                    <p> <strong> Trần Quang Trí</strong></p>
+                </div>
+            </div>
+
             <h1>
-                <img src="static/images/onion_heading.png" alt="Hành" style="width: 36px; height: 36px; vertical-align: middle; object-fit: contain;"> 
+                <img src="/static/images/onion_heading.png" alt="Hành" style="width: 36px; height: 36px; vertical-align: middle; object-fit: contain;"> 
                 Thu Hoạch Hành Tím Ninh Thuận 
-                <img src="static/images/onion_heading.png" alt="Hành" style="width: 36px; height: 36px; vertical-align: middle; object-fit: contain;">
+                <img src="/static/images/onion_heading.png" alt="Hành" style="width: 36px; height: 36px; vertical-align: middle; object-fit: contain;">
             </h1>
             <p class="subtitle"> Hãy trở thành người nông dân chăm chỉ nhé </p>
         </header>
@@ -181,5 +202,6 @@
     <script src="/static/js/leaderboard.js"></script>
     <script src="/static/js/game.js"></script>
     <script src="/static/js/events.js"></script>
+    <script src="/static/js/about.js"></script>
 </body>
 </html>
