@@ -61,6 +61,80 @@ body {
     border-bottom: 1px solid #f0e6d6;
 }
 
+/* --- NÚT 3 GẠCH DƯỚI ĐƯỜNG LINE & KHUNG GIỚI THIỆU --- */
+.menu-trigger-row {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 8px;
+    margin-bottom: 6px;
+}
+
+.hamburger-btn {
+    width: 38px;
+    height: 34px;
+    border-radius: 10px;
+    border: 1px solid #e6ccb2;
+    background: #fff8ed;
+    color: var(--primary-color);
+    font-size: 1.15rem;
+    font-weight: 700;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+}
+
+.hamburger-btn:hover {
+    background: #ffedd5;
+    border-color: var(--primary-color);
+}
+
+.about-box {
+    text-align: left;
+    background: #fffaf2;
+    border: 1px solid #f0d9b5;
+    border-radius: 12px;
+    padding: 14px 16px;
+    margin: 8px 0 14px;
+    box-shadow: 0 4px 12px rgba(139, 90, 43, 0.08);
+}
+
+.about-box-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+    padding-bottom: 6px;
+    border-bottom: 1px dashed #e6ccb2;
+}
+
+.about-box-header h3 {
+    font-size: 1rem;
+    color: var(--primary-color);
+    margin: 0;
+}
+
+.about-close-btn {
+    background: transparent;
+    border: none;
+    font-size: 1rem;
+    color: var(--muted-text);
+    cursor: pointer;
+    padding: 2px 6px;
+    border-radius: 6px;
+}
+
+.about-close-btn:hover {
+    background: #fde8d7;
+    color: var(--danger-color);
+}
+
+.about-content {
+    font-size: 0.92rem;
+    line-height: 1.6;
+    color: var(--text-color);
+}
 .user-welcome {
     font-size: 0.95rem;
     color: #9c4a1a;
@@ -112,6 +186,81 @@ header h1 {
 .subtitle {
     color: var(--muted-text);
     font-size: 0.92rem;
+}
+
+/* --- NÚT 3 GẠCH DƯỚI ĐƯỜNG LINE & KHUNG GIỚI THIỆU --- */
+.menu-trigger-row {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 8px;
+    margin-bottom: 6px;
+}
+
+.hamburger-btn {
+    width: 38px;
+    height: 34px;
+    border-radius: 10px;
+    border: 1px solid #e6ccb2;
+    background: #fff8ed;
+    color: var(--primary-color);
+    font-size: 1.15rem;
+    font-weight: 700;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+}
+
+.hamburger-btn:hover {
+    background: #ffedd5;
+    border-color: var(--primary-color);
+}
+
+.about-box {
+    text-align: left;
+    background: #fffaf2;
+    border: 1px solid #f0d9b5;
+    border-radius: 12px;
+    padding: 14px 16px;
+    margin: 8px 0 14px;
+    box-shadow: 0 4px 12px rgba(139, 90, 43, 0.08);
+}
+
+.about-box-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+    padding-bottom: 6px;
+    border-bottom: 1px dashed #e6ccb2;
+}
+
+.about-box-header h3 {
+    font-size: 1rem;
+    color: var(--primary-color);
+    margin: 0;
+}
+
+.about-close-btn {
+    background: transparent;
+    border: none;
+    font-size: 1rem;
+    color: var(--muted-text);
+    cursor: pointer;
+    padding: 2px 6px;
+    border-radius: 6px;
+}
+
+.about-close-btn:hover {
+    background: #fde8d7;
+    color: var(--danger-color);
+}
+
+.about-content {
+    font-size: 0.92rem;
+    line-height: 1.6;
+    color: var(--text-color);
 }
 
 /* --- THANH THỐNG KÊ --- */
